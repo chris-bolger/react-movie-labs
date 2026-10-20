@@ -7,23 +7,23 @@ import RemoveFromWatchListIcon from "../components/cardIcons/removeFromWatchList
 import { useContext } from "react";
 
 const UpcomingMoviesPage = (props) => {
-  const {watchList: watchListIds } = useContext(MoviesContext);
+  const {watchList : movieIds } = useContext(MoviesContext);
   const [movies, setMovies] = useState([]);
   
 
-  const addToWatchList = (movieId) => {
-    const updatedMovies = movies.map((m) =>
-      m.id === movieId ? { ...m, watchlist: true } : m
-    );
-    setMovies(updatedMovies);
-  };
+  // const addToWatchList = (movieId) => {
+  //   const updatedMovies = movies.map((m) =>
+  //     m.id === movieId ? { ...m, watchlist: true } : m
+  //   );
+  //   setMovies(updatedMovies);
+  // };
 
-  const removeFromWatchList = (movieId) => {
-    const updatedMovies = movies.map((m) =>
-      m.id === movieId ? { ...m, watchlist: false } : m
-    );
-    setMovies(updatedMovies);
-  }
+  // const removeFromWatchList = (movieId) => {
+  //   const updatedMovies = movies.map((m) =>
+  //     m.id === movieId ? { ...m, watchlist: false } : m
+  //   );
+  //   setMovies(updatedMovies);
+  // }
 
    useEffect(() => {
         getUpcomingMovies().then(movies => {
@@ -49,14 +49,7 @@ const UpcomingMoviesPage = (props) => {
     <PageTemplate
       title='Upcoming Movies'
       movies={movies}
-      action={(movie) => {
-        return (
-          <>
-          <AddToWatchListIcon movie={movie} />
-          <RemoveFromWatchListIcon movie={movie} />
-          </>
-        );
-      }}
+      action={(movie) => movieIds.includes(movie.id) ? <RemoveFromWatchListIcon movie={movie} /> : <AddToWatchListIcon movie={movie} />}
     />
   );
 };
