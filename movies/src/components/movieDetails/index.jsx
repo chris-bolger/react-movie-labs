@@ -66,7 +66,7 @@ const [drawerOpen, setDrawerOpen] = useState(false);
                     <Chip key={p.name} label={p.name} sx={{...chip}} />
                 </li>))}
       </Paper>
-            <Fab
+      <Fab
         color="secondary"
         variant="extended"
         onClick={() =>setDrawerOpen(true)}
