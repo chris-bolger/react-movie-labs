@@ -98,7 +98,9 @@ export const getUpcomingMovies = () => {
   .then((json) => json.results);
 };
 
-export const getRecommendedMovies = (id) => {
+export const getRecommendedMovies = ({queryKey}) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
   ).then(response => {
@@ -107,7 +109,7 @@ export const getRecommendedMovies = (id) => {
         throw new Error(error.status_message || "Something went wrong");
       });
     }
-    console.log(response.json())
+    // console.log(response.json())
     return response.json();
   })
   .catch((error) => {
