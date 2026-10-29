@@ -16,12 +16,6 @@ const MoviePage = (props) => {
     queryFn: getMovie,
   })
 
-  const { data: recommended, error: recommendedError, isPending: recommendedIsPending, isError: recommendedIsError  } = useQuery({
-    queryKey: ['recommended', {id: id}],
-    queryFn: getRecommendedMovies,
-  })
-
-
   if (isPending) {
     return <Spinner />;
   }
@@ -30,17 +24,14 @@ const MoviePage = (props) => {
     return <h1>{error.message}</h1>;
   }
 
-
   return (
     <>
       {movie ? (
-        console.log(recommended),
-        console.log(movie),
         <>
           <PageTemplate movie={movie}>
             <MovieDetails movie={movie} />
-            <Divider />
-            <MovieRecommendations results={recommended} />
+            <Divider sx={{ my: 2 }} />
+            <MovieRecommendations movie={movie} />
           </PageTemplate>
         </>
       ) : (

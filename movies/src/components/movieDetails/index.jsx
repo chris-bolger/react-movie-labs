@@ -8,7 +8,9 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from "../movieReviews"
+import MovieReviews from "../movieReviews";
+import Divider from '@mui/material/Divider';
+import { Stack } from "@mui/material";
 
 const root = {
     display: "flex",
@@ -27,45 +29,34 @@ const [drawerOpen, setDrawerOpen] = useState(false);
       <Typography variant="h5" component="h3">
         Overview
       </Typography>
-
       <Typography variant="h6" component="p">
         {movie.overview}
       </Typography>
-
-      <Paper 
-        component="ul" 
-        sx={{...root}}
-      >
-        <li>
+      <Stack direction="row" spacing={1} sx={{ my: 1, spacing: 1, justifyContent: "center" }}>
+        <Paper depth={12} sx={{ padding: "20px", margin: "20px" }}>
           <Chip label="Genres" sx={{...chip}} color="primary" />
-        </li>
-        {movie.genres.map((g) => (
-          <li key={g.name}>
+          {movie.genres.map((g) => (
             <Chip label={g.name} sx={{...chip}} />
-          </li>
-        ))}
-      </Paper>
-      <Paper component="ul" sx={{...root}}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-        <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
-        />
-        <Chip
-          icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count})`}
-        />
-        <Chip label={`Released: ${movie.release_date}`} />
-      </Paper>
-      <Paper component="ul" sx={{...root}}>
-        <li>
-            <Chip label={'Production Companies'} sx={{...chip}} color="primary" />
-        </li>
-            {movie.production_companies.map((p) => (
-                <li key={p.name}>
-                    <Chip key={p.name} label={p.name} sx={{...chip}} />
-                </li>))}
-      </Paper>
+          ))}
+        </Paper>
+        <Paper depth={12} sx={{ padding: "20px", margin: "20px" }}>
+          <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
+          <Chip
+            icon={<MonetizationIcon />}
+            label={`${movie.revenue.toLocaleString()}`}
+          />
+          <Chip
+            icon={<StarRate />}
+            label={`${movie.vote_average} (${movie.vote_count})`}
+          />
+          <Chip label={`Released: ${movie.release_date}`} />
+        </Paper>
+        <Paper depth={12} sx={{ padding: "20px", margin: "20px" }}>
+          <Chip label={'Production Companies'} sx={{...chip}} color="primary" />
+          {movie.production_companies.map((p) => (
+            <Chip key={p.name} label={p.name} sx={{...chip}} />))}
+        </Paper>
+      </Stack>
       <Fab
         color="secondary"
         variant="extended"

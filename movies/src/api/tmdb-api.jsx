@@ -112,6 +112,7 @@ export const getRecommendedMovies = ({queryKey}) => {
     // console.log(response.json())
     return response.json();
   })
+  .then((response) => response.results)
   .catch((error) => {
     throw error
   });
