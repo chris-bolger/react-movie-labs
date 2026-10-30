@@ -6,36 +6,41 @@ import MovieList from "../components/movieList";
 import Grid from "@mui/material/Grid";
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import EmptyContent from "../components/emptyContent";
-import Typography from "@mui/material/Typography";
 import Header from "../components/headerMovieList";
-import Box from "@mui/material/Box";
+import Spinner from "../components/spinner";
+import { useParams, useNavigate } from "react-router";
 
-const MovieSearchPage = ( props, title ) => {
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const { data, error, isPending, isError  } = useQuery({
-    queryKey: ['search', {query: searchTerm}],
+const MovieSearchPage = ( props ) => {
+  const { query } = useParams()
+  const navigate = useNavigate()
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ['search', { query }],
     queryFn: searchMovies,
-    enabled: !!searchTerm, // Only run the query if searchTerm is not empty
-  })
+    enabled: !!query,
+  });
 
   return (
     <>
     <Grid container sx={{justifyContent: "center"}}>
       <Grid size={12}>
-        <Header title="Search" />
+        <Header title="Search For Movies" />
       </Grid>
-      <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2}} sx={{padding: "20px", margin: "20px"}}>
-        <SearchBox onSearch={setSearchTerm}/>
-        {isPending && <EmptyContent />}
-        {isError && <h1>{error.message}</h1>}
+      <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2}} sx={{padding: "20px", margin: "20px", position: "sticky", top: "80px"}}>
+        <SearchBox onSearch={(query) => navigate(`/movies/search/${query}`)} />
       </Grid>
-      {data && (
-          <Grid container sx={{flex: "1 1 500px"}}>
-            <MovieList movies={data} action={(movie) => {
-              return <AddToFavoritesIcon movie={movie} />
-            }} />
-          </Grid>
-        )}
+      <Grid size={12} sx={{padding: "20px", margin: "20px"}}>
+        {!query && <EmptyContent title="Search for a movie" subtitle="Please enter a search term to find movies from TMDB." />}
+        {query && isPending && <EmptyContent title="Fetching results..."/>}
+        {isError && <EmptyContent title="Error" subtitle={error.message} />}
+        {data && data.length > 0 && (
+            <Grid container size={12} sx={{padding: "20px", margin: "20px", flex: "1 1 500px"}}>
+              <MovieList movies={data} action={(movie) => {
+                return <AddToFavoritesIcon movie={movie} />
+              }} />
+            </Grid>
+          )}
+        {data && data.length === 0 && <EmptyContent title="No results found" subtitle="Try searching for something else!" />}
+        </Grid>
     </Grid>
     </>
   );
