@@ -12,15 +12,15 @@ export default function SearchBox(props) {
     const onSubmit = (e) => {
         e.preventDefault();
         props.onSearch(search);
-        console.log("Search term from SearchBox:", search);
+        //console.log("Search term from SearchBox:", search);
     }
+    /* https://mui.com/material-ui/react-text-field/#CustomizedInputBase.js */
     return (
-        <>
-            <Paper component="form" elevation={12} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '400px' }} onSubmit={onSubmit} noValidate>
+        <> 
+            <Paper component="form" elevation={12} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center'}} onSubmit={onSubmit} noValidate>
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Search for a movie"
-                    inputProps={{ "aria-label": "search for a movie" }}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
