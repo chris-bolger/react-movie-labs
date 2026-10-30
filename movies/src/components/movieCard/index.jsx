@@ -31,7 +31,7 @@ export default function MovieCard({movie, action}) {
   };
 
   return (
-    <Card>
+    <Card elevation={6}>
         <CardHeader
             avatar={
                 movie.favorite ? (
