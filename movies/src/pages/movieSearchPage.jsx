@@ -19,18 +19,18 @@ const MovieSearchPage = ( props ) => {
     queryFn: searchDatabase,
     enabled: !!query,
   });
-
+  const title = mediaType === "movie" ? "Search for Movies" : "Search for TV Shows";
   return (
     <>
     <Grid container sx={{justifyContent: "center"}}>
       <Grid size={12}>
-        <Header title="Search For Movies" />
+        <Header title={title} />
       </Grid>
       <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2}} sx={{padding: "20px", margin: "20px", position: "sticky", top: "80px"}}>
-        <SearchBox onSearch={(query) => navigate(`/search/${query}`)} />
+        <SearchBox default={title} onSearch={(query) => navigate(`/search/${query}`)} />
       </Grid>
       <Grid size={12} sx={{padding: "20px", margin: "20px"}}>
-        {!query && <EmptyContent title="Search for a movie" subtitle="Please enter a search term to find movies from TMDB." />}
+        {!query && <EmptyContent title={title} subtitle="Please enter a search term to find media from TMDB." />}
         {query && isPending && <EmptyContent title="Fetching results..."/>}
         {isError && <EmptyContent title="Error" subtitle={error.message} />}
         {data && data.length > 0 && (

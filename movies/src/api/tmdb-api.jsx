@@ -1,4 +1,4 @@
-export const getMovies = (args) => {
+export const getDiscover = (args) => {
   const [, media] = args.queryKey
   const { mediaType } = media;
   return fetch(
@@ -21,7 +21,7 @@ export const getMovie = (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/movies/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -92,12 +92,30 @@ export const getGenres = () => {
   };
 
 
-export const getUpcomingMovies = () => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
-  )
-  .then((res) => res.json())
-  .then((json) => json.results);
+export const getUpcomingMedia = ({queryKey}) => {
+  const [, queryPart] = queryKey;
+  const {mediaType} = queryPart;
+  let endpoint;
+  console.log("Media type: ", mediaType);
+  if(mediaType === "movie"){
+    endpoint = "movie/upcoming"
+  }else{
+    endpoint = "tv/on_the_air"
+  }
+  return fetch(`https://api.themoviedb.org/3/${endpoint}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`)
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    // console.log(response.json())
+    return response.json();
+  })
+  .then((response) => response.results)
+  .catch((error) => {
+    throw error
+  });
 };
 
 export const getRecommendedMovies = ({queryKey}) => {

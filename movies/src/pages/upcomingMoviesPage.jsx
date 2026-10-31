@@ -1,53 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { useQuery } from '@tanstack/react-query';
 import PageTemplate from '../components/templateMovieListPage'
-import { getUpcomingMovies } from "../api/tmdb-api";
+import { getUpcomingMedia } from "../api/tmdb-api";
 import { MoviesContext } from "../contexts/moviesContext";
 import MasterIconList from "../components/cardIcons/masterList";
 import { useContext } from "react";
+import Spinner from "../components/spinner";
 
 const UpcomingMoviesPage = (props) => {
-  const {watchList : movieIds } = useContext(MoviesContext);
+  const {mediaType, setMediaType} = useContext(MoviesContext);
   const [movies, setMovies] = useState([]);
+  const { data, error, isPending, isError  } = useQuery({
+    queryKey: ['upcoming', { mediaType }],
+    queryFn: getUpcomingMedia,
+  })
+  const title = mediaType === "movie" ? "Upcoming Movies" : "Airing TV Shows"
+  if (isPending) {
+    return <Spinner />
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>
+  }  
   
+  //  useEffect(() => {
+  //       getUpcomingMedia(['upcoming', { mediaType }]).then(movies => {
+  //       setMovies(movies);
+  //       });
+  //   }, []);
 
-  // const addToWatchList = (movieId) => {
-  //   const updatedMovies = movies.map((m) =>
-  //     m.id === movieId ? { ...m, watchlist: true } : m
-  //   );
-  //   setMovies(updatedMovies);
-  // };
-
-  // const removeFromWatchList = (movieId) => {
-  //   const updatedMovies = movies.map((m) =>
-  //     m.id === movieId ? { ...m, watchlist: false } : m
-  //   );
-  //   setMovies(updatedMovies);
-  // }
-
-   useEffect(() => {
-        getUpcomingMovies().then(movies => {
-        setMovies(movies);
-        });
-    }, []);
-
-  //   return (
-  //   <PageTemplate
-  //     title="Favorite Movies"
-  //     movies={movies}
-  //     action={(movie) => {
-  //       return (
-  //         <>
-  //           <RemoveFromFavorites movie={movie} />
-  //           <WriteReview movie={movie} />
-  //         </>
-  //       );
-  //     }}
-  //   />
-  // );
   return (
     <PageTemplate
-      title='Upcoming Movies'
-      movies={movies}
+      title={title}
+      movies={data}
       action={(movie) => {
         return <MasterIconList movie={movie} />
       }}
