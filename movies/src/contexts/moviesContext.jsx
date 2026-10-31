@@ -24,14 +24,14 @@ const MoviesContextProvider = (props) => {
     if (!watchList.includes(movie.id)){
       setWatchList([...watchList, movie.id]);
     }
-    console.log(watchList);
+    //console.log(watchList);
   };
 
   const removeFromWatchList = (movie) => {
     setWatchList( watchList.filter(
       (mId) => mId !== movie.id
     ) )
-    console.log(watchList);
+    //console.log(watchList);
   };
 
   const addReview = (movie, review) => {
