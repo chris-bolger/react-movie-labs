@@ -4,7 +4,7 @@ import { searchMovies } from "../api/tmdb-api";
 import { useQuery } from '@tanstack/react-query';
 import MovieList from "../components/movieList";
 import Grid from "@mui/material/Grid";
-import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
+import MasterIconList from "../components/cardIcons/masterList";
 import EmptyContent from "../components/emptyContent";
 import Header from "../components/headerMovieList";
 import Spinner from "../components/spinner";
@@ -33,9 +33,9 @@ const MovieSearchPage = ( props ) => {
         {query && isPending && <EmptyContent title="Fetching results..."/>}
         {isError && <EmptyContent title="Error" subtitle={error.message} />}
         {data && data.length > 0 && (
-            <Grid container size={12} sx={{padding: "20px", margin: "20px", flex: "1 1 500px"}}>
+            <Grid container sx={{flex: "1 1 500px"}}>
               <MovieList movies={data} action={(movie) => {
-                return <AddToFavoritesIcon movie={movie} />
+                return <MasterIconList movie={movie} />
               }} />
             </Grid>
           )}

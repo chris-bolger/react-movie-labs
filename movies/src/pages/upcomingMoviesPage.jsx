@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import PageTemplate from '../components/templateMovieListPage'
 import { getUpcomingMovies } from "../api/tmdb-api";
 import { MoviesContext } from "../contexts/moviesContext";
-import AddToWatchListIcon from "../components/cardIcons/addToWatchList";
-import RemoveFromWatchListIcon from "../components/cardIcons/removeFromWatchList";
+import MasterIconList from "../components/cardIcons/masterList";
 import { useContext } from "react";
 
 const UpcomingMoviesPage = (props) => {
@@ -49,7 +48,9 @@ const UpcomingMoviesPage = (props) => {
     <PageTemplate
       title='Upcoming Movies'
       movies={movies}
-      action={(movie) => movieIds.includes(movie.id) ? <RemoveFromWatchListIcon movie={movie} /> : <AddToWatchListIcon movie={movie} />}
+      action={(movie) => {
+        return <MasterIconList movie={movie} />
+      }}
     />
   );
 };
