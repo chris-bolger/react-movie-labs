@@ -11,10 +11,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
-import img from '../../images/film-poster-placeholder.png'
-import Avatar from '@mui/material/Avatar';
 import { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
+import { Divider } from "@mui/material";
+import image from '../../images/film-poster-placeholder.png'
 
 export default function MovieCard({movie, action}) {
   const { favorites, addToFavorites } = useContext(MoviesContext);
@@ -33,15 +33,15 @@ export default function MovieCard({movie, action}) {
   return (
     <Card elevation={6}>
         <CardHeader
-            avatar={
-                movie.favorite ? (
-                <Avatar sx={{ backgroundColor: 'red' }}>
-                    <FavoriteIcon />
-                </Avatar>
-                ) : null
-            }
+            // avatar={
+            //     movie.favorite ? (
+            //     <Avatar sx={{ backgroundColor: 'red' }}>
+            //         <FavoriteIcon />
+            //     </Avatar>
+            //     ) : null
+            // }
             title={
-                <Typography variant="h5" component="p">
+                <Typography variant="h5" component="p" noWrap sx={{overflow: "hidden"}}>
                      {movie.title}{" "}
                 </Typography>
             }
@@ -52,7 +52,7 @@ export default function MovieCard({movie, action}) {
         image={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-            : img
+            : image
         }
       />
       <CardContent>
@@ -71,8 +71,9 @@ export default function MovieCard({movie, action}) {
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions sx={{ justifyContent: "space-between" }}>
         {action(movie)}
+        <Divider orientation="vertical" variant="middle" flexItem sx={{margin: "0px 10px"}} />
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
