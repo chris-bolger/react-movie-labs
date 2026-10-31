@@ -9,6 +9,7 @@ import { InputBase } from "@mui/material";
 
 export default function SearchBox(props) {
     const [search, setSearch] = useState("");
+    const defaultValue = props.default || "Search for a movie";
     const onSubmit = (e) => {
         e.preventDefault();
         props.onSearch(search);
@@ -20,7 +21,7 @@ export default function SearchBox(props) {
             <Paper component="form" elevation={12} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center'}} onSubmit={onSubmit} noValidate>
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search for a movie"
+                    placeholder={defaultValue}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
