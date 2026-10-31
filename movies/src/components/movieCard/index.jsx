@@ -17,6 +17,7 @@ import { Divider } from "@mui/material";
 import image from '../../images/film-poster-placeholder.png'
 
 export default function MovieCard({movie, action}) {
+  const {mediaType, setMediaType} = useContext(MoviesContext);
   const { favorites, addToFavorites } = useContext(MoviesContext);
 
   if (favorites.find((id) => id === movie.id)) {
@@ -42,7 +43,7 @@ export default function MovieCard({movie, action}) {
             // }
             title={
                 <Typography variant="h5" component="p" noWrap sx={{overflow: "hidden"}}>
-                     {movie.title}{" "}
+                  {mediaType === "movie" ? movie.title : movie.name}
                 </Typography>
             }
         />
@@ -60,7 +61,7 @@ export default function MovieCard({movie, action}) {
           <Grid size={{xs: 6}}>
             <Typography variant="h6" component="p">
               <CalendarIcon fontSize="small" />
-              {movie.release_date}
+              {mediaType === "movie" ? movie.release_date : movie.first_air_date}
             </Typography>
           </Grid>
           <Grid size={{xs: 6}}>

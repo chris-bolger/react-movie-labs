@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 function MovieListPageTemplate({ movies, title, action }) {
+  const {mediaType, setMediaType} = useContext(MoviesContext)
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const genreId = Number(genreFilter);
 
   let displayedMovies = movies
     .filter((m) => {
-      return m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
+      return mediaType === "movie" ? 
+       m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1 :
+       m.name.toLowerCase().search(nameFilter.toLowerCase()) !== -1; 
     })
     .filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;

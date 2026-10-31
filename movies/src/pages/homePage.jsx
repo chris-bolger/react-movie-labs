@@ -4,11 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import MasterIconList from '../components/cardIcons/masterList'
+import { MoviesContext } from "../contexts/moviesContext";
+import {React, useState, useContext} from "react";
 
 const HomePage = (props) => {
-
+  const {mediaType, setMediaType} = useContext(MoviesContext);
   const { data, error, isPending, isError  } = useQuery({
-    queryKey: ['discover'],
+    queryKey: ['discover', { mediaType }],
     queryFn: getMovies,
   })
   
@@ -21,7 +23,7 @@ const HomePage = (props) => {
   }  
   
   const movies = data.results;
-
+  console.log(movies);
   // Redundant, but necessary to avoid app crashing.
   const favorites = movies.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
