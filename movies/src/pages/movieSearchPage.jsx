@@ -1,21 +1,22 @@
-import React from "react";
+import {React, useState, useContext} from "react";
 import SearchBox from "../components/searchBox/searchBox";
-import { searchMovies } from "../api/tmdb-api";
+import { searchDatabase } from "../api/tmdb-api";
 import { useQuery } from '@tanstack/react-query';
 import MovieList from "../components/movieList";
 import Grid from "@mui/material/Grid";
 import MasterIconList from "../components/cardIcons/masterList";
 import EmptyContent from "../components/emptyContent";
 import Header from "../components/headerMovieList";
-import Spinner from "../components/spinner";
 import { useParams, useNavigate } from "react-router";
+import { MoviesContext } from "../contexts/moviesContext";
 
 const MovieSearchPage = ( props ) => {
+  const {mediaType, setMediaType} = useContext(MoviesContext);
   const { query } = useParams()
   const navigate = useNavigate()
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['search', { query }],
-    queryFn: searchMovies,
+    queryKey: ['search', { query, mediaType }],
+    queryFn: searchDatabase,
     enabled: !!query,
   });
 
@@ -26,7 +27,7 @@ const MovieSearchPage = ( props ) => {
         <Header title="Search For Movies" />
       </Grid>
       <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2}} sx={{padding: "20px", margin: "20px", position: "sticky", top: "80px"}}>
-        <SearchBox onSearch={(query) => navigate(`/movies/search/${query}`)} />
+        <SearchBox onSearch={(query) => navigate(`/search/${query}`)} />
       </Grid>
       <Grid size={12} sx={{padding: "20px", margin: "20px"}}>
         {!query && <EmptyContent title="Search for a movie" subtitle="Please enter a search term to find movies from TMDB." />}

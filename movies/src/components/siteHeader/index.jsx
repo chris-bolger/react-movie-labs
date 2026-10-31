@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import {React, useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,10 +10,16 @@ import { useNavigate } from "react-router";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Stack, ToggleButtonGroup, ToggleButton, Typography } from "@mui/material"
+import TheatersIcon from '@mui/icons-material/Theaters';
+import TvIcon from '@mui/icons-material/Tv';
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = () => {
+  //https://mui.com/material-ui/react-toggle-button/#ToggleButtonNotEmpty.js
+  const {mediaType, setMediaType} = useContext(MoviesContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,9 +30,9 @@ const SiteHeader = () => {
 
   const menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favorites" },
-    { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Search", path: "/movies/search" },
+    { label: "Favorites", path: "/favorites" },
+    { label: "Upcoming", path: "/upcoming" },
+    { label: "Search", path: "/search" },
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -37,6 +42,12 @@ const SiteHeader = () => {
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleMediaTypeChange = (event, newMediaType) => {
+    if (newMediaType !== null) {
+      setMediaType(newMediaType);
+    }
   };
 
   return (
@@ -87,15 +98,28 @@ const SiteHeader = () => {
               </>
             ) : (
               <>
-                {menuOptions.map((opt) => (
-                  <Button
-                    key={opt.label}
-                    color="inherit"
-                    onClick={() => handleMenuSelect(opt.path)}
-                  >
-                    {opt.label}
-                  </Button>
-                ))}
+              <Stack direction="row" spacing={4}>
+                  {menuOptions.map((opt) => (
+                    <Button
+                      key={opt.label}
+                      color="inherit"
+                      onClick={() => handleMenuSelect(opt.path)}
+                    >
+                      {opt.label}
+                    </Button>
+                  ))}
+                  <ToggleButtonGroup
+                  value={mediaType}
+                  exclusive
+                  onChange={handleMediaTypeChange}>
+                    <ToggleButton value="movie" aria-label="left-aligned">
+                        <TheatersIcon />
+                    </ToggleButton>
+                    <ToggleButton value="tv" aria-label="right-aligned">
+                        <TvIcon />
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </Stack>
               </>
             )}
         </Toolbar>

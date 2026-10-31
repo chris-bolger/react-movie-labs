@@ -118,15 +118,14 @@ export const getRecommendedMovies = ({queryKey}) => {
   });
 };
 
-export const searchMovies = ({queryKey}) => {
+export const searchDatabase = ({queryKey}) => {
   const [, queryPart] = queryKey;
-  const { query } = queryPart;
+  const { query, mediaType } = queryPart;
   if(!query || query === "") {
-    return Promise.resolve({ results: [] });
+    return Promise.resolve([]);
   }
-  return fetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
-  ).then(response => {
+  const response = `https://api.themoviedb.org/3/search/${mediaType}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
+  return fetch(response).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
         throw new Error(error.status_message || "Something went wrong");
