@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -11,6 +11,7 @@ import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
 import Divider from '@mui/material/Divider';
 import { Stack } from "@mui/material";
+import MediaDetailsChips from "../mediaDetailsChips";
 
 const root = {
     display: "flex",
@@ -22,8 +23,9 @@ const root = {
 };
 const chip = { margin: 0.5 };
 
-const MovieDetails = ({ movie }) => {  // Don't miss this!
-const [drawerOpen, setDrawerOpen] = useState(false);
+const MovieDetails = ({ movie, mediaType }) => {  // Don't miss this!
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  //console.log(movie);
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -32,7 +34,7 @@ const [drawerOpen, setDrawerOpen] = useState(false);
       <Typography variant="h6" component="p">
         {movie.overview}
       </Typography>
-      <Stack direction="row" spacing={1} sx={{ my: 1, spacing: 1, justifyContent: "center" }}>
+      {/* <Stack direction="row" spacing={1} sx={{ my: 1, spacing: 1, justifyContent: "center" }}>
         <Paper depth={12} sx={{ padding: "20px", margin: "20px" }}>
           <Chip label="Genres" sx={{...chip}} color="primary" />
           {movie.genres.map((g) => (
@@ -56,7 +58,8 @@ const [drawerOpen, setDrawerOpen] = useState(false);
           {movie.production_companies.map((p) => (
             <Chip key={p.name} label={p.name} sx={{...chip}} />))}
         </Paper>
-      </Stack>
+      </Stack> */}
+      <MediaDetailsChips media={movie} mediaType={mediaType}/>
       <Fab
         color="secondary"
         variant="extended"
