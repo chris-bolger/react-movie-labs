@@ -26,7 +26,7 @@ const MovieSearchPage = ( props ) => {
       <Grid size={12}>
         <Header title={title} />
       </Grid>
-      <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2}} sx={{padding: "20px", margin: "20px", position: "sticky", top: "80px"}}>
+      <Grid sx={{padding: "20px", margin: "20px", position: "sticky", top: "80px"}}>
         <SearchBox default={title} onSearch={(query) => navigate(`/search/${query}`)} />
       </Grid>
       <Grid size={12} sx={{padding: "20px", margin: "20px"}}>
