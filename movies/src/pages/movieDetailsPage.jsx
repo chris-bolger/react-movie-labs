@@ -1,19 +1,21 @@
-import React from "react";
+import {react, useContext} from "react";
 import { useParams } from 'react-router';
 import MovieDetails from "../components/movieDetails/";
 import PageTemplate from "../components/templateMoviePage";
 import useMovie from "../hooks/useMovie";
-import { getMovie, getRecommendedMovies } from '../api/tmdb-api'
+import { getMedia } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
 import Divider from '@mui/material/Divider';
 import MovieRecommendations from "../components/movieRecommendations";
+import { MoviesContext } from "../contexts/moviesContext";
 
 const MoviePage = (props) => {
+  const {mediaType, setMediaType} = useContext(MoviesContext);
   const { id } = useParams();
   const { data: movie, error, isPending, isError  } = useQuery({
-    queryKey: ['movie', {id: id}],
-    queryFn: getMovie,
+    queryKey: ['media', { id, mediaType }],
+    queryFn: getMedia,
   })
 
   if (isPending) {
@@ -28,8 +30,8 @@ const MoviePage = (props) => {
     <>
       {movie ? (
         <>
-          <PageTemplate movie={movie}>
-            <MovieDetails movie={movie} />
+          <PageTemplate movie={movie} mediaType={mediaType}>
+            <MovieDetails movie={movie} mediaType={mediaType}/>
             <Divider sx={{ my: 2 }} />
             <MovieRecommendations movie={movie} />
           </PageTemplate>

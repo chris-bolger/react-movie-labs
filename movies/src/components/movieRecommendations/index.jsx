@@ -5,16 +5,17 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import { useContext } from "react";
 import MasterIconList from "../cardIcons/masterList";
 import { useQuery } from '@tanstack/react-query';
-import { getRecommendedMovies } from '../../api/tmdb-api';
+import { getRecommended } from '../../api/tmdb-api';
 import Spinner from '../spinner';
 import Paper from '@mui/material/Paper';
 import MovieList from '../movieList'
 
 const MovieRecommendations = ({ movie }) => {
     const { watchList : movieIds } = useContext(MoviesContext)
+    const {mediaType, setMediaType} = useContext(MoviesContext);
     const { data: recommended, error: recommendedError, isPending: recommendedIsPending, isError: recommendedIsError  } = useQuery({
-        queryKey: ['recommended', {id: movie.id}],
-        queryFn: getRecommendedMovies,
+        queryKey: ['recommended', {id: movie.id, mediaType}],
+        queryFn: getRecommended,
     })
     
     if (recommendedIsPending) {
