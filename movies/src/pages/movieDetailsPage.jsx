@@ -7,7 +7,7 @@ import { getMedia } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
 import Divider from '@mui/material/Divider';
-import MovieRecommendations from "../components/movieRecommendations";
+import MovieRecommendations from "../components/mediaRecommendations";
 import { MoviesContext } from "../contexts/moviesContext";
 
 const MoviePage = (props) => {
@@ -31,9 +31,8 @@ const MoviePage = (props) => {
       {movie ? (
         <>
           <PageTemplate movie={movie} mediaType={mediaType}>
-            <MovieDetails movie={movie} mediaType={mediaType}/>
+            <MovieDetails media={movie} mediaType={mediaType}/>
             <Divider sx={{ my: 2 }} />
-            <MovieRecommendations movie={movie} />
           </PageTemplate>
         </>
       ) : (

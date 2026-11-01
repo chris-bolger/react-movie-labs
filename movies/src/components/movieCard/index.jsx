@@ -15,24 +15,25 @@ import { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { Divider } from "@mui/material";
 import image from '../../images/film-poster-placeholder.png'
+import MasterIconList from "../cardIcons/masterList";
 
-export default function MovieCard({movie, action}) {
+export default function MovieCard({movie}) {
   const {mediaType, setMediaType} = useContext(MoviesContext);
   const { favorites, addToFavorites } = useContext(MoviesContext);
-
+  const previewImage = movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : image;
   if (favorites.find((id) => id === movie.id)) {
     movie.favorite = true;
   } else {
     movie.favorite = false
   }
-
+  console.log(previewImage);
   const handleAddToFavorite = (e) => {
     e.preventDefault();
     addToFavorites(movie);
   };
 
   return (
-    <Card elevation={6}>
+    <Card elevation={2}>
         <CardHeader
             // avatar={
             //     movie.favorite ? (
@@ -49,23 +50,19 @@ export default function MovieCard({movie, action}) {
         />
 
       <CardMedia
-        sx={{ height: 500 }}
-        image={
-          movie.poster_path
-            ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-            : image
-        }
+        sx={{ aspectRatio: "2 / 3"}}
+        image={previewImage}
       />
       <CardContent>
         <Grid container>
           <Grid size={{xs: 6}}>
-            <Typography variant="h6" component="p">
+            <Typography component="p">
               <CalendarIcon fontSize="small" />
               {mediaType === "movie" ? movie.release_date : movie.first_air_date}
             </Typography>
           </Grid>
           <Grid size={{xs: 6}}>
-            <Typography variant="h6" component="p">
+            <Typography component="p">
               <StarRateIcon fontSize="small" />
               {"  "} {movie.vote_average}{" "}
             </Typography>
@@ -73,8 +70,8 @@ export default function MovieCard({movie, action}) {
         </Grid>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
-        {action(movie)}
-        <Divider orientation="vertical" variant="middle" flexItem sx={{margin: "0px 10px"}} />
+        <MasterIconList movie={movie}/>
+        <Divider orientation="vertical" variant="middle" flexItem/>
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
