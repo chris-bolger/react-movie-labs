@@ -12,6 +12,7 @@ import MovieReviews from "../movieReviews";
 import Divider from '@mui/material/Divider';
 import { Stack } from "@mui/material";
 import MediaDetailsChips from "../mediaDetailsChips";
+import MediaRecommendations from "../mediaRecommendations";
 
 const root = {
     display: "flex",
@@ -23,7 +24,7 @@ const root = {
 };
 const chip = { margin: 0.5 };
 
-const MovieDetails = ({ movie, mediaType }) => {  // Don't miss this!
+const MovieDetails = ({ media, mediaType }) => {  // Don't miss this!
   const [drawerOpen, setDrawerOpen] = useState(false);
   //console.log(movie);
   return (
@@ -32,7 +33,7 @@ const MovieDetails = ({ movie, mediaType }) => {  // Don't miss this!
         Overview
       </Typography>
       <Typography variant="h6" component="p">
-        {movie.overview}
+        {media.overview}
       </Typography>
       {/* <Stack direction="row" spacing={1} sx={{ my: 1, spacing: 1, justifyContent: "center" }}>
         <Paper depth={12} sx={{ padding: "20px", margin: "20px" }}>
@@ -59,7 +60,8 @@ const MovieDetails = ({ movie, mediaType }) => {  // Don't miss this!
             <Chip key={p.name} label={p.name} sx={{...chip}} />))}
         </Paper>
       </Stack> */}
-      <MediaDetailsChips media={movie} mediaType={mediaType}/>
+      <MediaDetailsChips media={media} mediaType={mediaType}/>
+      <MediaRecommendations media={media} mediaType={mediaType} />
       <Fab
         color="secondary"
         variant="extended"
@@ -74,7 +76,7 @@ const MovieDetails = ({ movie, mediaType }) => {  // Don't miss this!
         Reviews
       </Fab>
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <MovieReviews movie={movie} />
+        <MovieReviews movie={media} />
       </Drawer>
       </>
   );

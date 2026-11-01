@@ -1,6 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import Movie from "../movieCard";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { useContext } from "react";
 import MasterIconList from "../cardIcons/masterList";
@@ -10,11 +11,10 @@ import Spinner from '../spinner';
 import Paper from '@mui/material/Paper';
 import MovieList from '../movieList'
 
-const MovieRecommendations = ({ movie }) => {
+const MediaRecommendations = ({ media, mediaType }) => {
     const { watchList : movieIds } = useContext(MoviesContext)
-    const {mediaType, setMediaType} = useContext(MoviesContext);
     const { data: recommended, error: recommendedError, isPending: recommendedIsPending, isError: recommendedIsError  } = useQuery({
-        queryKey: ['recommended', {id: movie.id, mediaType}],
+        queryKey: ['recommended', {id: media.id, mediaType}],
         queryFn: getRecommended,
     })
     
@@ -24,25 +24,25 @@ const MovieRecommendations = ({ movie }) => {
     if(recommendedIsError) {
         return <h1>{recommendedError.message}</h1>;
     }
-    let recommendedMovies = recommended.map((movie) => (
-        <Box sx={{flexShrink: 0}} key={movie.id}>
-            <Movie movie={movie} action={(movie) => {
-                return <MasterIconList movie={movie} />
+    let recommendedMedia = recommended.map((media) => (
+        <Box key={media.id} sx={{flexShrink: 0, width: "12vw"}}>
+            <Movie movie={media} action={(media) => {
+                return <MasterIconList movie={media} />
             }} />
         </Box>
     ))
     return (
         <>
-            <Paper elevation={6}>
+            <Paper>
                 <Typography variant="h5" component="h3" sx={{padding: "20px"}}>
-                    Recommended Movies
+                    Recommended {mediaType == "movie" ? "Movies" : "TV"}
                 </Typography>
-                <Stack direction="row" spacing = {2} sx={{overflowX: "auto", padding: "20px", height: "10%"}}>
-                    {recommendedMovies}
+                <Stack direction="row" spacing = {2} sx={{overflowX: "scroll", padding: "5px"}}>
+                    {recommendedMedia}
                 </Stack>
             </Paper>
         </>
     )
 };
 
-export default MovieRecommendations;
+export default MediaRecommendations;
